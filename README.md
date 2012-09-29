@@ -5,3 +5,5 @@ A plugin for [Sublime Text 2](http://www.sublimetext.com/2) to highlight mixed t
 Shamelessly ripped from https://github.com/SublimeText/TrailingSpaces and modified.
 
 Reuseing TrailingSpaces' config, so you should probably install that first.
+
+![Screenshot](images/mixed-whitespace.png "Highlight Mixed Whitespace Screenshot")
