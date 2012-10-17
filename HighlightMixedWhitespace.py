@@ -20,7 +20,7 @@ def is_find_results(view):
 
 # Return an array of regions matching mixed whitspace.
 def find_mixed_whitspace(view):
-	return view.find_all('\t* +\t *')
+	return view.find_all('(\t+ +)|( +\t+)')
 
 # Highlight mixed whitspace.
 def highlight_mixed_whitspace(view):
