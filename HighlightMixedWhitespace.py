@@ -25,13 +25,13 @@ def find_mixed_whitspace(view):
 # Highlight mixed whitspace.
 def highlight_mixed_whitspace(view):
 	max_size = ts_settings.get('trailing_spaces_file_max_size',
-	 DEFAULT_MAX_FILE_SIZE)
+		DEFAULT_MAX_FILE_SIZE)
 	color_scope_name = ts_settings.get('trailing_spaces_highlight_color',
 		DEFAULT_COLOR_SCOPE_NAME)
 	if view.size() <= max_size and not is_find_results(view):
 		regions = find_mixed_whitspace(view)
 		view.add_regions('MixedWhitespaceHighlightListener', regions,
-		 color_scope_name, "",sublime.DRAW_EMPTY)
+			color_scope_name, "", sublime.DRAW_EMPTY)
 
 # Highlight matching regions.
 class MixedWhitespaceHighlightListener(sublime_plugin.EventListener):
