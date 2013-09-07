@@ -7,7 +7,7 @@ You can also add a custom regex for characters to highlight.
 
 See the default settings file if you want to customise
 
-This plugin used to be called *Highlight Mixed Whitespace*, now renamed because it does a little more now.
+This plugin used to be called *Highlight Mixed Whitespace*, renamed because it does a little more now.
 
 Shamelessly ripped from https://github.com/SublimeText/TrailingSpaces and modified.
 
