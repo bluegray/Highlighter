@@ -8,6 +8,7 @@ DEFAULT_MAX_FILE_SIZE = 1048576
 DEFAULT_COLOR_SCOPE_NAME = "invalid"
 DEFAULT_IS_ENABLED = True
 DEFAULT_REGEX = '(\t+ +)|( +\t+)|[\u2026\u2018\u2019\u201c\u201d\u2013\u2014]|[\t ]+$'
+DEFAULT_DELAY = 3000
 
 # Set whether the plugin is on or off.
 highlighter_settings = sublime.load_settings('highlighter.sublime-settings')
@@ -45,7 +46,9 @@ class HighlighterListener(sublime_plugin.EventListener):
     def on_modified(self, view):
         if hmw_enabled:
             self.pending = self.pending + 1
-            sublime.set_timeout(lambda: self.parse(view), 1000)
+            sublime.set_timeout(lambda: self.parse(view),
+                highlighter_settings.get('highlighter_delay',
+                    DEFAULT_DELAY))
 
     def parse(self, view):
         self.pending = self.pending - 1
