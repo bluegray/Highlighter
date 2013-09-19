@@ -1,0 +1,70 @@
+[
+{
+	"id": "preferences",
+	"children":
+	[
+	{
+		"caption": "Package Settings",
+		"mnemonic": "P",
+		"id": "package-settings",
+		"children":
+		[
+		{
+			"caption": "Highlighter",
+			"children":
+			[
+			{
+				"command": "open_file",
+				"args": {
+					"file": "${packages}/Highlighter/highlighter.sublime-settings",
+					"platform": "Windows"
+				},
+				"caption": "Settings - Default"
+			},
+			{
+				"command": "open_file",
+				"args": {
+					"file": "${packages}/Highlighter/highlighter.sublime-settings",
+					"platform": "OSX"
+				},
+				"caption": "Settings - Default"
+			},
+			{
+				"command": "open_file",
+				"args": {
+					"file": "${packages}/Highlighter/highlighter.sublime-settings",
+					"platform": "Linux"
+				},
+				"caption": "Settings - Default"
+			},
+			{
+				"command": "open_file",
+				"args": {
+					"file": "${packages}/User/highlighter.sublime-settings",
+					"platform": "Windows"
+				},
+				"caption": "Settings - User"
+			},
+			{
+				"command": "open_file",
+				"args": {
+					"file": "${packages}/User/highlighter.sublime-settings",
+					"platform": "OSX"
+				},
+				"caption": "Settings - User"
+			},
+			{
+				"command": "open_file",
+				"args": {
+					"file": "${packages}/User/highlighter.sublime-settings",
+					"platform": "Linux"
+				},
+				"caption": "Settings - User"
+			}
+			]
+		}
+		]
+	}
+	]
+}
+]
