@@ -1,6 +1,7 @@
 # Shamelessly ripped and modified from
 # https://github.com/SublimeText/TrailingSpaces
 
+import sys
 import sublime
 import sublime_plugin
 
@@ -10,10 +11,27 @@ DEFAULT_IS_ENABLED = True
 DEFAULT_REGEX = '(\t+ +)|( +\t+)|[\u2026\u2018\u2019\u201c\u201d\u2013\u2014]|[\t ]+$'
 DEFAULT_DELAY = 3000
 
-# Set whether the plugin is on or off.
-highlighter_settings = sublime.load_settings('highlighter.sublime-settings')
-hmw_enabled = bool(highlighter_settings.get('highlighter_enabled', DEFAULT_IS_ENABLED))
-hmw_regex = highlighter_settings.get('highlighter_regex', DEFAULT_REGEX)
+def plugin_loaded():
+    global Pref
+    settings  = sublime.load_settings('highlighter.sublime-settings')
+
+    class Pref:
+        def load(self):
+            Pref.enabled          = bool(settings.get('highlighter_enabled', DEFAULT_IS_ENABLED))
+            Pref.regex            = settings.get('highlighter_regex', DEFAULT_REGEX)
+            Pref.max_size         = settings.get('highlighter_max_file_size', DEFAULT_MAX_FILE_SIZE)
+            Pref.color_scope_name = settings.get('highlighter_scope_name', DEFAULT_COLOR_SCOPE_NAME)
+            Pref.delay            = settings.get('highlighter_delay', DEFAULT_DELAY)
+
+    Pref = Pref()
+    Pref.load()
+
+    settings.add_on_change('reload', lambda: Pref.load())
+
+# ST2 backwards compatibility
+if sys.version_info[0] == 2:
+    plugin_loaded()
+
 
 # Determine if the view is a find results view.
 def is_find_results(view):
@@ -23,19 +41,15 @@ def is_find_results(view):
 
 # Return an array of regions matching regex.
 def find_regexes(view):
-    return view.find_all(hmw_regex)
+    return view.find_all(Pref.regex)
 
 
 # Highlight regex matches.
 def highlighter(view):
-    max_size = highlighter_settings.get('highlighter_max_file_size',
-                                DEFAULT_MAX_FILE_SIZE)
-    color_scope_name = highlighter_settings.get('highlighter_scope_name',
-                                        DEFAULT_COLOR_SCOPE_NAME)
-    if view.size() <= max_size and not is_find_results(view):
+    if view.size() <= Pref.max_size and not is_find_results(view):
         regions = find_regexes(view)
         view.add_regions('HighlighterListener', regions,
-                         color_scope_name, "", sublime.DRAW_EMPTY)
+                         Pref.color_scope_name, "", sublime.DRAW_EMPTY)
 
 
 # Highlight matching regions.
@@ -44,11 +58,9 @@ class HighlighterListener(sublime_plugin.EventListener):
         self.pending = 0
 
     def on_modified(self, view):
-        if hmw_enabled:
+        if Pref.enabled:
             self.pending = self.pending + 1
-            sublime.set_timeout(lambda: self.parse(view),
-                highlighter_settings.get('highlighter_delay',
-                    DEFAULT_DELAY))
+            sublime.set_timeout(lambda: self.parse(view), Pref.delay)
 
     def parse(self, view):
         self.pending = self.pending - 1
@@ -57,9 +69,9 @@ class HighlighterListener(sublime_plugin.EventListener):
         highlighter(view)
 
     def on_activated(self, view):
-        if hmw_enabled:
+        if Pref.enabled:
             highlighter(view)
 
     def on_load(self, view):
-        if hmw_enabled:
+        if Pref.enabled:
             highlighter(view)
