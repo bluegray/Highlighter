@@ -1,7 +1,6 @@
 # Shamelessly ripped and modified from
 # https://github.com/SublimeText/TrailingSpaces
 
-import sys
 import sublime
 import sublime_plugin
 
@@ -13,9 +12,8 @@ DEFAULT_DELAY = 3000
 
 def plugin_loaded():
     global Pref
-    settings  = sublime.load_settings('highlighter.sublime-settings')
-
-    class Pref:
+    settings = sublime.load_settings('highlighter.sublime-settings')
+    class Preferences:
         def load(self):
             Pref.enabled          = bool(settings.get('highlighter_enabled', DEFAULT_IS_ENABLED))
             Pref.regex            = settings.get('highlighter_regex', DEFAULT_REGEX)
@@ -23,15 +21,10 @@ def plugin_loaded():
             Pref.color_scope_name = settings.get('highlighter_scope_name', DEFAULT_COLOR_SCOPE_NAME)
             Pref.delay            = settings.get('highlighter_delay', DEFAULT_DELAY)
 
-    Pref = Pref()
+    Pref = Preferences()
     Pref.load()
 
     settings.add_on_change('reload', lambda: Pref.load())
-
-# ST2 backwards compatibility
-if sys.version_info[0] == 2:
-    plugin_loaded()
-
 
 # Determine if the view is a find results view.
 def is_find_results(view):
@@ -75,3 +68,7 @@ class HighlighterListener(sublime_plugin.EventListener):
     def on_load(self, view):
         if Pref.enabled:
             highlighter(view)
+
+# ST2 backwards compatibility
+if int(sublime.version()) < 3000:
+    plugin_loaded()
