@@ -11,8 +11,8 @@ These characters are highlighted by default:
 **U+2019** Right single quotation mark  
 **U+201c** Left double quotation mark  
 **U+201d** Right double quotation mark  
-**U+2013** en dash  
-**U+2014** em dash  
+**U+2013** En dash  
+**U+2014** Em dash  
 
 You can also add a custom regex for characters to highlight.
 See the default settings file for settings you can customise.
