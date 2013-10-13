@@ -6,8 +6,10 @@ import sublime_plugin
 
 DEFAULT_MAX_FILE_SIZE = 1048576
 DEFAULT_COLOR_SCOPE_NAME = "invalid"
+DEFAULT_COLOR_SCOPE_NAME_COOL = "constant.character.entity.html"
 DEFAULT_IS_ENABLED = True
-DEFAULT_REGEX = '(\t+ +)|( +\t+)|[\u2026\u2018\u2019\u201c\u201d\u2013\u2014]|[\t ]+$'
+DEFAULT_REGEX = '(\t+ +)|( +\t+)|([\t ]+$)'
+DEFAULT_REGEX_COOL = '[\u2026\u2018\u2019\u201c\u201d\u2013\u2014]'
 DEFAULT_DELAY = 3000
 
 
@@ -15,8 +17,10 @@ class Preferences:
     def load(self, settings):
         self.enabled = bool(settings.get('highlighter_enabled', DEFAULT_IS_ENABLED))
         self.regex = settings.get('highlighter_regex', DEFAULT_REGEX)
+        self.regex_cool = settings.get('highlighter_regex_cool', DEFAULT_REGEX_COOL)
         self.max_size = settings.get('highlighter_max_file_size', DEFAULT_MAX_FILE_SIZE)
         self.color_scope_name = settings.get('highlighter_scope_name', DEFAULT_COLOR_SCOPE_NAME)
+        self.color_scope_name_cool = settings.get('highlighter_scope_name_cool', DEFAULT_COLOR_SCOPE_NAME_COOL)
         self.delay = settings.get('highlighter_delay', DEFAULT_DELAY)
 
 Pref = Preferences()
@@ -39,12 +43,20 @@ def find_regexes(view):
     return view.find_all(Pref.regex)
 
 
+def find_regexes_cool(view):
+    return view.find_all(Pref.regex_cool)
+
+
 # Highlight regex matches.
 def highlighter(view):
     if view.size() <= Pref.max_size and not is_find_results(view):
         regions = find_regexes(view)
+        regions_cool = find_regexes_cool(view)
         view.add_regions('HighlighterListener', regions,
                          Pref.color_scope_name, "", sublime.DRAW_EMPTY)
+        view.add_regions('HighlighterListenerCool', regions_cool,
+                         Pref.color_scope_name_cool, "dot",
+                         sublime.DRAW_STIPPLED_UNDERLINE | sublime.DRAW_NO_FILL | sublime.DRAW_NO_OUTLINE)
 
 
 # Highlight matching regions.
