@@ -35,8 +35,6 @@ def plugin_loaded():
 
 # Determine if the view is a find results view.
 def is_find_results(view):
-    import sublime_api
-
     return view.settings().get('syntax') and \
         "Find Results" in view.settings().get('syntax')
 
