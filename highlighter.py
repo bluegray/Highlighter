@@ -11,7 +11,7 @@ DEFAULT_IS_ENABLED = True
 DEFAULT_REGEX = '(\t+ +(?![*]))|( +\t+)|([\t ]+$)'
 DEFAULT_REGEX_COOL = '[\u2026\u2018\u2019\u201c\u201d\u2013\u2014]'
 DEFAULT_DELAY = 3000
-
+DEFAULT_SYNTAX_IGNORE = []
 
 class Preferences:
     def load(self, settings):
@@ -22,6 +22,7 @@ class Preferences:
         self.color_scope_name = settings.get('highlighter_scope_name', DEFAULT_COLOR_SCOPE_NAME)
         self.color_scope_name_cool = settings.get('highlighter_scope_name_cool', DEFAULT_COLOR_SCOPE_NAME_COOL)
         self.delay = settings.get('highlighter_delay', DEFAULT_DELAY)
+        self.syntax_ignore = settings.get('highlighter_syntax_ignore', DEFAULT_SYNTAX_IGNORE)
 
 Pref = Preferences()
 
@@ -34,9 +35,24 @@ def plugin_loaded():
 
 # Determine if the view is a find results view.
 def is_find_results(view):
+    import sublime_api
+
     return view.settings().get('syntax') and \
         "Find Results" in view.settings().get('syntax')
 
+
+# Returns True if the view should be ignored, False otherwise.
+def ignore_view(view):
+    view_syntax = view.settings().get('syntax')
+
+    if not view_syntax:
+        return False
+
+    for syntax_ignore in Pref.syntax_ignore:
+        if syntax_ignore in view_syntax:
+            return True
+
+    return False
 
 # Return an array of regions matching regex.
 def find_regexes(view):
@@ -49,7 +65,7 @@ def find_regexes_cool(view):
 
 # Highlight regex matches.
 def highlighter(view):
-    if view.size() <= Pref.max_size and not is_find_results(view):
+    if view.size() <= Pref.max_size and not ignore_view(view) and not is_find_results(view):
         regions = find_regexes(view)
         regions_cool = find_regexes_cool(view)
         view.add_regions('HighlighterListener', regions,
