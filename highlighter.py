@@ -9,7 +9,7 @@ DEFAULT_COLOR_SCOPE_NAME = "invalid"
 DEFAULT_COLOR_SCOPE_NAME_COOL = "constant.character.entity.html"
 DEFAULT_IS_ENABLED = True
 DEFAULT_REGEX = '(\t+ +(?![*]))|( +\t+)|([\t ]+$)'
-DEFAULT_REGEX_COOL = '[\u2026\u2018\u2019\u201c\u201d\u2013\u2014]'
+DEFAULT_REGEX_COOL = '[\u2026\u2018\u2019\u201c\u201d\u2013\u2014\u00A0]'
 DEFAULT_DELAY = 3000
 
 

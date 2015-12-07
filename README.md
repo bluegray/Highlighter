@@ -5,14 +5,15 @@ tabs and spaces, some unicode characters and trailing space.
 
 ![Highlighter Screenshot](https://github.com/bluegray/Highlight-Mixed-Whitespace/raw/master/images/mixed-whitespace.png "Highlighter Screenshot")
 
-These characters are highlighted by default:  
-**U+2026** Horizontal ellipsis  
-**U+2018** Left single quotation mark  
-**U+2019** Right single quotation mark  
-**U+201c** Left double quotation mark  
-**U+201d** Right double quotation mark  
-**U+2013** En dash  
-**U+2014** Em dash  
+These characters are highlighted by default:
+**U+2026** Horizontal ellipsis
+**U+2018** Left single quotation mark
+**U+2019** Right single quotation mark
+**U+201c** Left double quotation mark
+**U+201d** Right double quotation mark
+**U+2013** En dash
+**U+2014** Em dash
+**U+00A0** No-break space
 
 You can also add a custom regex for characters to highlight.
 See the default settings file for settings you can customise.
