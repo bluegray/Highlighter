@@ -5,6 +5,8 @@ tabs and spaces, some unicode characters and trailing space.
 
 ![Highlighter Screenshot](https://github.com/bluegray/Highlight-Mixed-Whitespace/raw/master/images/mixed-whitespace.png "Highlighter Screenshot")
 
+## Additional highlighted characters
+
 These characters are highlighted by default:
 **U+2026** Horizontal ellipsis
 **U+2018** Left single quotation mark
@@ -15,9 +17,12 @@ These characters are highlighted by default:
 **U+2014** Em dash
 **U+00a0** Non-breaking space
 
-You can also add a custom regex for characters to highlight.
-See the default settings file for settings you can customise.
+## Configuration
 
-This plugin used to be called *Highlight Mixed Whitespace*, renamed because it does a little more now.
+You can override the default settings by creating a file in `Packages/User/highlighter.sublime-settings`:
+Check the default highlighter.sublime-settings file for available settings.
 
-Shamelessly ripped from https://github.com/SublimeText/TrailingSpaces and modified.
+### Syntax ignore
+
+You can add a list of syntaxes to ignore with the following setting:
+```"highlighter_syntax_ignore": ["Python", "PHP"]```

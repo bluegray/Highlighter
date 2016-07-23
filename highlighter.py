@@ -13,6 +13,7 @@ DEFAULT_REGEX_COOL = '[\u2026\u2018\u2019\u201c\u201d\u2013\u2014\u00a0]'
 DEFAULT_DELAY = 3000
 DEFAULT_SYNTAX_IGNORE = []
 
+
 class Preferences:
     def load(self, settings):
         self.enabled = bool(settings.get('highlighter_enabled', DEFAULT_IS_ENABLED))
@@ -52,6 +53,7 @@ def ignore_view(view):
 
     return False
 
+
 # Return an array of regions matching regex.
 def find_regexes(view):
     return view.find_all(Pref.regex)
@@ -70,7 +72,8 @@ def highlighter(view):
                          Pref.color_scope_name, "", sublime.DRAW_EMPTY)
         view.add_regions('HighlighterListenerCool', regions_cool,
                          Pref.color_scope_name_cool, "dot",
-                         sublime.DRAW_STIPPLED_UNDERLINE | sublime.DRAW_NO_FILL | sublime.DRAW_NO_OUTLINE)
+                         sublime.DRAW_STIPPLED_UNDERLINE | sublime.DRAW_NO_FILL |
+                         sublime.DRAW_NO_OUTLINE)
 
 
 # Highlight matching regions.
