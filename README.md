@@ -13,7 +13,7 @@ These characters are highlighted by default:
 **U+201d** Right double quotation mark
 **U+2013** En dash
 **U+2014** Em dash
-**U+00a0** None breaking space
+**U+00a0** Non-breaking space
 
 You can also add a custom regex for characters to highlight.
 See the default settings file for settings you can customise.
