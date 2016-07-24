@@ -1,4 +1,12 @@
-[
+[{
+	"id": "view",
+	"children":
+	[
+		{"caption": "Toggle Highlighter",
+		"command": "highlighter_toggle",
+	"checkbox": true}
+]
+},
 {
 	"id": "preferences",
 	"children":
