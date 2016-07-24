@@ -6,12 +6,15 @@ import sublime_plugin
 
 DEFAULT_MAX_FILE_SIZE = 1048576
 DEFAULT_COLOR_SCOPE_NAME = "invalid"
-DEFAULT_COLOR_SCOPE_NAME_COOL = "constant.character.entity.html"
+DEFAULT_COLOR_SCOPE_NAME_COOL = "invalid"
+DEFAULT_FLAGS = sublime.DRAW_EMPTY
+DEFAULT_FLAGS_COOL = sublime.DRAW_STIPPLED_UNDERLINE | sublime.DRAW_NO_FILL | sublime.DRAW_NO_OUTLINE
 DEFAULT_IS_ENABLED = True
 DEFAULT_REGEX = '(\t+ +(?![*]))|( +\t+)|([\t ]+$)'
 DEFAULT_REGEX_COOL = '[\u2026\u2018\u2019\u201c\u201d\u2013\u2014\u00a0]'
 DEFAULT_DELAY = 3000
 DEFAULT_SYNTAX_IGNORE = []
+SETTINGS_FILE = 'highlighter.sublime-settings'
 
 
 class Preferences:
@@ -24,12 +27,35 @@ class Preferences:
         self.color_scope_name_cool = settings.get('highlighter_scope_name_cool', DEFAULT_COLOR_SCOPE_NAME_COOL)
         self.delay = settings.get('highlighter_delay', DEFAULT_DELAY)
         self.syntax_ignore = settings.get('highlighter_syntax_ignore', DEFAULT_SYNTAX_IGNORE)
+        self.save_settings_on_change = settings.get('highlighter_save_settings_on_change', (False))
+        self.settings = settings
+
+    def save(self):
+        sublime.save_settings(SETTINGS_FILE)
 
 Pref = Preferences()
 
 
+class HighlighterToggleCommand(sublime_plugin.WindowCommand):
+    def run(self):
+        view = self.window.active_view()
+        settings = view.settings()
+        enabled = bool(settings.get('highlighter_enabled', DEFAULT_IS_ENABLED))
+        settings.set('highlighter_enabled', not(enabled))
+        sublime.status_message("Toggle Highlighter: " + str(not(enabled)))
+        highlighter(view)
+        if Pref.save_settings_on_change:
+            Pref.settings.set('highlighter_enabled', not(enabled))
+            Pref.save()
+
+    def is_checked(self):
+        view = self.window.active_view()
+        settings = view.settings()
+        return settings.get('highlighter_enabled', DEFAULT_IS_ENABLED)
+
+
 def plugin_loaded():
-    settings = sublime.load_settings('highlighter.sublime-settings')
+    settings = sublime.load_settings(SETTINGS_FILE)
     Pref.load(settings)
     settings.add_on_change('reload', lambda: Pref.load(settings))
 
@@ -66,14 +92,17 @@ def find_regexes_cool(view):
 # Highlight regex matches.
 def highlighter(view):
     if view.size() <= Pref.max_size and not ignore_view(view) and not is_find_results(view):
+
+        if view.settings().get('highlighter_enabled'):
+            scope = Pref.color_scope_name
+            scope_cool = Pref.color_scope_name_cool
+        else:
+            scope = scope_cool = ""
+
         regions = find_regexes(view)
         regions_cool = find_regexes_cool(view)
-        view.add_regions('HighlighterListener', regions,
-                         Pref.color_scope_name, "", sublime.DRAW_EMPTY)
-        view.add_regions('HighlighterListenerCool', regions_cool,
-                         Pref.color_scope_name_cool, "dot",
-                         sublime.DRAW_STIPPLED_UNDERLINE | sublime.DRAW_NO_FILL |
-                         sublime.DRAW_NO_OUTLINE)
+        view.add_regions('HighlighterListener', regions, scope, "", DEFAULT_FLAGS)
+        view.add_regions('HighlighterListenerCool', regions_cool, scope_cool, "", DEFAULT_FLAGS_COOL)
 
 
 # Highlight matching regions.
