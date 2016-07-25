@@ -1,0 +1,4 @@
+[{
+  "keys": ["shift+super+alt+h"],
+  "command": "highlighter_toggle"
+}]
