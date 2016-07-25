@@ -33,7 +33,7 @@ Check the default highlighter.sublime-settings file for available settings.
 ### Syntax ignore
 
 You can add a list of syntaxes to ignore with the following setting:
-```
+```javascript
 {
   "highlighter_syntax_ignore": ["Python", "PHP"]
 }
@@ -43,9 +43,22 @@ You can add a list of syntaxes to ignore with the following setting:
 
 To persist the toggled state to disk, set the following to true:
 
-```
+```javascript
 {
   "highlighter_save_settings_on_change": true
 }
 ```
 
+### Custom regex
+
+You can customise the regex to highlight:
+
+**highlighter_regex**      <- Matching characters highlighted with fill and outline  
+**highlighter_regex_cool** <- Matching characters highlighted with stippled underline  
+
+```javascript
+{
+  "highlighter_regex": "(\t+ +(?![*]))|( +\t+)|([\t ]+$)",
+  "highlighter_regex_cool": "[\u2026\u2018\u2019\u201c\u201d\u2013\u2014\u00a0]"
+}
+```
