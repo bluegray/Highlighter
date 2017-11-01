@@ -8,14 +8,16 @@ tabs and spaces, some unicode characters and trailing space.
 ## Additional highlighted characters
 
 These characters are highlighted by default:  
-**U+2026** Horizontal ellipsis  
-**U+2018** Left single quotation mark  
-**U+2019** Right single quotation mark  
-**U+201c** Left double quotation mark  
-**U+201d** Right double quotation mark  
-**U+2013** En dash  
-**U+2014** Em dash  
-**U+00a0** Non-breaking space
+
+- **U+2026** Horizontal ellipsis
+- **U+2018** Left single quotation mark
+- **U+2019** Right single quotation mark
+- **U+201c** Left double quotation mark
+- **U+201d** Right double quotation mark
+- **U+2013** En dash
+- **U+2014** Em dash
+- **U+00a0** Non-breaking space
+- **U+3000** Ideographic spaces
 
 ## Key bindings
 
