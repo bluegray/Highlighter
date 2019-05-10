@@ -1,5 +1,9 @@
 #Highlighter
 
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
+
+**Archived since I don't use Sublime Text anymore.**
+
 A plugin for [Sublime Text](http://www.sublimetext.com) (ST2 and ST3) to highlight mixed
 tabs and spaces, some unicode characters and trailing space.
 
